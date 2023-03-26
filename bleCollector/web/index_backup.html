@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>BLE Collector</title>
+        <meta charset = "utf-8">
+        <meta name="viewport" content="device-wdith, initial-scale=1.0">
+        <style type="text/css">
+            #my_txt{
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 14px;
+                color: rgb(4, 62, 2);
+            }
+        </style>
+    </head>
+    <body>
+        <h1> Hello, Kevin </h1>
+        <p id="my_txt"></p>
+        <button onclick="buttonClicked()">OK</button>
+        <p id="my_loc"></p>
+        <button onclick="getLocation()">Where am I?</button>
+        <script>
+            console.log("Hello, world");
+            var my_txt = document.getElementById("my_txt");
+            var my_loc = document.getElementById("my_loc");
+            my_txt.innerHTML = "Hello, JavaScript";
+            function getLocation() {
+                navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    my_loc.innerHTML = "Lat: " + pos.coords.latitude + " | Lon: " + pos.coords.longitude;
+                },
+                (err)=>{
+                    my_loc.innerHTML = "Error: " + err.message;
+                }
+            );
+            }
+
+            function buttonClicked(){
+                // my_txt.innerHTML = "Button Clicked";
+                fetch("/api")
+                .then(function(response){
+                    return response.json();
+                }).then(function(data){
+                    console.log(data);
+                    my_txt.innerHTML = data.my_txt;
+                });
+            }
+        </script>
+    </body>
+</html>

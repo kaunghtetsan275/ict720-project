@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HEHEHEHE</title>
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+        <link rel="shortcut icon" href="https://e7.pngegg.com/pngimages/710/115/png-clipart-computer-icons-favicon-science-iconfinder-free-science-icon-text-logo.png">
+        <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+        <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+        <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    </head>
+    <body>
+        <ons-navigator swipable id="ons-navigator" animation="fade" page="main.html"></ons-navigator>
+        <template id="main.html">
+            <ons-page>
+                <ons-toolbar>
+                  <div class=”center”>Main</div>
+                </ons-toolbar>
+                <ons-button id="my_btn" modifier="large--cta">Click me!</ons-button>
+            </ons-page>
+        </template>
+        <template id="sub.html">
+            <ons-page>
+                <ons-toolbar>
+                    <div class="left"><ons-back-button>Back</ons-back-button></div>
+                  <div class=”center”>Sub</div>
+                </ons-toolbar>
+            </ons-page>
+        </template>
+        <script>
+            var myNavigator = document.querySelector('ons-navigator');
+            // $(function(){
+            //   // Initialization code
+            //   $('ons-button').on('click', function(e) {
+            //     ons.notification.alert('Button is tapped!');
+            //   })
+            // });
+            ons.ready(function(){
+                console.log("Onsen UI is ready!");
+                var btn = document.getElementById("my_btn");
+                btn.addEventListener("click", function(){
+                    console.log("Meow!");
+                    myNavigator.pushPage('sub.html')
+                });
+            });
+        // Using a Promise object
+            liff
+            .init({
+                liffId: "1660778366-4PQxb2Mo", // Use own liffId
+            })
+            .then(() => {
+                // Start to use liff's api
+                liff.getProfile().then(function(profile) {
+                    const userId = profile.userId;
+                    const displayName = profile.displayName;
+                    const pictureUrl = profile.pictureUrl;
+                    fetch('/api?userId=' + userId + '&displayName=' + displayName + '&pictureUrl=' + pictureUrl)
+                    .then(response => {
+                        return response.json()
+                    }).then(data => {
+                        console.log(data);
+                    })
+                }).catch(function(error) {
+                    window.alert("Error getting profile: " + error);
+                });
+            })
+            .catch((err) => {
+                // Error happens during initialization
+                console.log(err.code, err.message);
+            });
+
+            // Using a callback
+            liff.init({ liffId: "1660778366-4PQxb2Mo" }, successCallback, errorCallback);
+        </script>
+    </body>
+</html>
